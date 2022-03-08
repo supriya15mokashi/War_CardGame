@@ -19,7 +19,7 @@ def displayScore():
 
 
 def calculateScore(p1, p2, stack1, stack2):
-    if stack1 and stack2: print('stacks',stack1, stack2)
+
     global scorep1, scorep2, gameBoard
     if (int(p1.split('_')[0]) > int(p2.split('_')[0])):
         player1_deck.append(p1)
@@ -30,7 +30,7 @@ def calculateScore(p1, p2, stack1, stack2):
         player2_deck.append(p1)
         if stack1 and stack2: player2_deck.extend(stack2+stack1)
     else:
-        print('Tie breaker')
+
         displayStack3()
         if(len(player1_deck) > 3 and len(player2_deck) > 3):
             stack1 = player1_deck[0:3]
@@ -51,11 +51,12 @@ def calculateScore(p1, p2, stack1, stack2):
 
 
 def resizeCard(card):
-    our_card_img = Image.open(card)
-    our_card_resize_image = our_card_img.resize((130, 200))
-    global our_card_image
-    our_card_image = ImageTk.PhotoImage(our_card_resize_image)
-    return our_card_image
+    raw_image = Image.open(card)
+    raw_image.mode = 'RGBA'
+    resize_image = raw_image.resize((130, 200))
+    global final_image
+    final_image = ImageTk.PhotoImage(resize_image)
+    return final_image
 
 
 def dealCards():
@@ -76,7 +77,6 @@ def dealCards():
     player2_deck = deck
 
 def makeMove(gameBoard):
-
     player1_card = player1_deck.pop(0)
     global player1_image
     player1_image = resizeCard(f'Images/{player1_card}.png')
@@ -130,7 +130,6 @@ def displayWelcomePage():
         label1 = Label(gameBoard, image=deckImage1).place(x=120, y=90)
         label2 = Label(gameBoard, image=deckImage2).place(x=740, y=90)
         dealCards()
-        displayScore()
         print(len(player1_deck), len(player2_deck))
         showCardsButton = Button(gameBoard, text="Show cards", bg='DarkSeaGreen', width=11, font=('Helvetica 11 bold'), command= lambda: makeMove(gameBoard)).place(x=450, y=520)
 
